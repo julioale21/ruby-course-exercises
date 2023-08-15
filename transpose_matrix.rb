@@ -43,15 +43,23 @@ only spaces on its bottom-most row(s), the corresponding output row should conta
 def transpose(input)
     input = input.split("\n")
     input = input.map {|x| x.split("")}
-    max_length = input.max_by(&:length).length
-    input = input.map {|x| x.length < max_length ? x.fill(" ", x.length, max_length - x.length) : x}
+    max_length = max_length(input)
+    input = fill_gaps(input, max_length)
     input = input.transpose
     input = input.map {|x| x.join("").rstrip}
     input = input.join("\n")
 end
 
-print transpose("ABC\nDFE")
+def max_length(input)
+    input.map(&:length).max
+end
+
+def fill_gaps(input, max_length)
+    input.map {|x| x.length < max_length ? x.fill(" ", x.length, max_length - x.length) : x}
+end
+
+# print transpose("ABC\nDFE")
 print transpose("AB\nDEF")
-print transpose("AB\nDE")
-print transpose("AB\nDEF\nG")
-print transpose("ABCD\nEFGH\nIJKL\nIMNO\nQRST")
+# print transpose("AB\nDE")
+# print transpose("AB\nDEF\nG")
+# print transpose("ABCD\nEFGH\nIJKL\nIMNO\nQRST")
